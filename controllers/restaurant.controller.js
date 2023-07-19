@@ -6,7 +6,7 @@ Restaurant.createRestaurant = async(newRestaurant)=>{
         const createRestaurant = await Restaurant.create(newRestaurant);
         console.log("created restaurant:", createRestaurant.toJSON());
         return createRestaurant.toJSON();
-    } catch (erroe) {
+    } catch (err) {
         console.log("err", err);
         throw err;
     }
