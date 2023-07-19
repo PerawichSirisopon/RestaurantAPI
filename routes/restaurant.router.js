@@ -1,11 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const Restaurant = require("../models/restaurant.model");
-const {
-    error
-} = require("console");
+const Restaurant = require("../controllers/restaurant.controller");
 
-//Insert restaurant to database
+//Create a new restaurant
 //http://localhost:5000/restaurants
 router.post("/restaurants", async (req, res) => {
     try {

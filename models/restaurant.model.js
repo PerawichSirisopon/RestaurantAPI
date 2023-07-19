@@ -1,15 +1,17 @@
-const {Datatype, DataTypes} = require("sequelize");
+const {
+    DataTypes
+} = require("sequelize");
 const sequelize = require("./db");
 //Define the restaurant model
-const Restaurant = sequelize.define("restaurant",{
-    id:{
+const Restaurant = sequelize.define("restaurant", {
+    id: {
         type: DataTypes.INTEGER,
-        primarykey:true,
-        autoIncrement:true
+        primarykey: true,
+        autoIncrement: true
     },
-    name:{
-        type:DataTypes.STRING,
-        allowNull:false
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false
     },
     type: {
         type: DataTypes.STRING,
@@ -19,12 +21,16 @@ const Restaurant = sequelize.define("restaurant",{
         type: DataTypes.STRING,
         allowNull: false
     },
-    createdAt: {
-        type: DataTypes.STRING,
-        allowNull: false
+    createAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        defaultValue: DataTypes.NOW,
     },
     updateAt: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataTypes.DATE,
+        allowNull: true,
+        defaultValue: DataTypes.NOW,
     }
-})
+});
+
+module.exports = Restaurant;
