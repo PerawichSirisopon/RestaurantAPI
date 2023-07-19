@@ -42,6 +42,7 @@ Restaurant.getAll = (result) => {
     });
 };
 
+//Get ById restaurant
 Restaurant.getById = (restaurantsId, result) => {
     //SELECT * From restaurant WHERE id = restaurantId
     sql.query(`SELECT * From restaurant WHERE id = $(restaurantId)`,
@@ -65,5 +66,47 @@ Restaurant.getById = (restaurantsId, result) => {
         }
     );
 };
+
+//update restaurant by id
+restaurant.updateById = (id, restaurant, result) => {
+    //UPDATE `restaurant` SET "name","type","imageurl" WHERE id = "id"
+    sql.query("UPDATE restaurant SET name = ?,type = ?,imageurl = ? WHERE id = ?",
+        [restaurant.name, restaurant.type, restaurant.imageurl, id],
+        (err, res) => {
+            if (err) {
+                result(err, null)
+                return;
+            }
+            if (res.affectedRows == 0) {
+                result({
+                    kind: "not_found"
+                }, null)
+                return;
+            }
+            //restaurant update
+            result(null, {
+                id: id,
+                ...restaurant
+            })
+        });
+}
+
+
+restaurant.deleteById = (id, result) => {
+    sql.query("DELETE FROM restaurant WHERE id = ?", id, (err, res) => {
+        if (err) {
+            result(err, null);
+            return;
+        }
+        if (res.affectedRows == 0) {
+            result({
+                kind: "not_found"
+            }, null);
+        }
+
+        console.log("restaurant id " + restaurant + " is daleted");
+        result(null, res);
+    });
+}
 
 module.exports = Restaurant;

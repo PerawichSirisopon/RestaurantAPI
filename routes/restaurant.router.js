@@ -63,4 +63,50 @@ router.get("/restaurants/:id", (req, res) => {
     })
 });
 
+router.put("/restaurants/:id", (req, res) => {
+    const restaurantId = Number.parseInt(req.params.id);
+    if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
+        res.status(400).send({
+            message: "Attributes can't be empty!"
+        })
+    }
+    restaurant.updateById(restaurantId, new restaurant(req.body), (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(400).send({
+                    message: "Restaurant not found with this id" + restaurantId
+                })
+            } else {
+                res.status(500).send({
+                    message: err.message || "ERrOr"
+                });
+            }
+        } else {
+            res.send(data)
+        }
+    })
+});
+
+
+router.delete("/restaurants/:id", (req, res) => {
+    const restaurantId = Number.parseInt(req.params.id);
+    restaurant.deleteById(restaurantId, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(400).send({
+                    message: "Restaurant not found with this id" + restaurantId
+                })
+            } else {
+                res.status(500).send({
+                    message: err.message || "ERrOr"
+                });
+            }
+        } else {
+            res.send({
+                message: "Restaurant id:" + restaurantId + "is deleted"
+            })
+        }
+    })
+});
+
 module.exports = router;
